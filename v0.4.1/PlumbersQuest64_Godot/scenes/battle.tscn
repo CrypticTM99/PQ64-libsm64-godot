@@ -1,0 +1,266 @@
+[gd_scene format=3 uid="uid://cbattlepq64"]
+
+[ext_resource type="Script" uid="uid://dyeueyqnvlcpb" path="res://scripts/battle_controller.gd" id="1_battle"]
+[ext_resource type="Script" uid="uid://bbq30kpxivduk" path="res://addons/libsm64_godot/handlers/libsm64_static_surfaces_handler.gd" id="2_p1qf1"]
+[ext_resource type="Script" uid="uid://b4n6vr1utqly6" path="res://addons/libsm64_godot/libsm64_mario/libsm64_mario.gd" id="3_a12nh"]
+
+[sub_resource type="PlaneMesh" id="mesh_arena"]
+size = Vector2(40, 40)
+
+[sub_resource type="StandardMaterial3D" id="mat_arena"]
+albedo_color = Color(0.16, 0.2, 0.28, 1)
+
+[sub_resource type="CapsuleMesh" id="mesh_enemy"]
+radius = 0.55
+height = 1.7
+
+[sub_resource type="StandardMaterial3D" id="mat_enemy"]
+albedo_color = Color(0.85, 0.35, 0.25, 1)
+roughness = 0.55
+
+[node name="Battle" type="Node3D" unique_id=1690373919]
+script = ExtResource("1_battle")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=355997148]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 12, 2)
+light_energy = 1.15
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2135653787]
+transform = Transform3D(1, 0, 0, 0, 0.91997063, 0.39198747, 0, -0.39198747, 0.91997063, -0.79093456, 2.7864816, 5.9897866)
+current = true
+fov = 42.0
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=549346708]
+mesh = SubResource("mesh_arena")
+surface_material_override/0 = SubResource("mat_arena")
+
+[node name="EnemyPlaceholder" type="MeshInstance3D" parent="." unique_id=1192699718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, -5)
+mesh = SubResource("mesh_enemy")
+surface_material_override/0 = SubResource("mat_enemy")
+
+[node name="NameLabel" type="Label3D" parent="EnemyPlaceholder" unique_id=457675817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+pixel_size = 0.012
+text = "Enemy"
+font_size = 28
+outline_size = 8
+
+[node name="LibSM64StaticSurfaceHandler" type="Node" parent="." unique_id=1053148604]
+script = ExtResource("2_p1qf1")
+metadata/_custom_type_script = "uid://bbq30kpxivduk"
+
+[node name="LibSM64Mario" type="Node3D" parent="." unique_id=529850722 node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.5)
+script = ExtResource("3_a12nh")
+camera = NodePath("../Camera3D")
+metadata/_custom_type_script = "uid://b4n6vr1utqly6"
+
+[node name="BattleUI" type="Control" parent="." unique_id=870540931]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="HBoxContainer" parent="BattleUI" unique_id=838441771]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_constants/separation = 28
+
+[node name="PlayerHP" type="Label" parent="BattleUI/TopBar" unique_id=156581444]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "HP 100/100   MP 30/30"
+
+[node name="EnemyHP" type="Label" parent="BattleUI/TopBar" unique_id=1659297289]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Enemy HP"
+
+[node name="PhaseLabel" type="Label" parent="BattleUI/TopBar" unique_id=1674644011]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "SELECT"
+
+[node name="BattleMessage" type="Label" parent="BattleUI" unique_id=601572723]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.2
+offset_left = -240.0
+offset_top = -16.0
+offset_right = 240.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="CounterPrompt" type="Label" parent="BattleUI" unique_id=2062653755]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.36
+anchor_right = 0.5
+anchor_bottom = 0.36
+offset_left = -180.0
+offset_top = -24.0
+offset_right = 180.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.2, 1)
+theme_override_font_sizes/font_size = 32
+text = "★  PRESS A / SPACE  ★"
+horizontal_alignment = 1
+
+[node name="CommandPanel" type="PanelContainer" parent="BattleUI" unique_id=898872705]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -230.0
+offset_right = 210.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="BattleUI/CommandPanel" unique_id=1999863094]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AttackBtn" type="Button" parent="BattleUI/CommandPanel/VBox" unique_id=1779100745]
+layout_mode = 2
+text = "Attack"
+
+[node name="DefendBtn" type="Button" parent="BattleUI/CommandPanel/VBox" unique_id=940614544]
+layout_mode = 2
+text = "Defend"
+
+[node name="SkillsBtn" type="Button" parent="BattleUI/CommandPanel/VBox" unique_id=1701690335]
+layout_mode = 2
+text = "Skills"
+
+[node name="MagicBtn" type="Button" parent="BattleUI/CommandPanel/VBox" unique_id=312619121]
+layout_mode = 2
+text = "Magic"
+
+[node name="ItemBtn" type="Button" parent="BattleUI/CommandPanel/VBox" unique_id=2053538284]
+layout_mode = 2
+text = "Item"
+
+[node name="FleeBtn" type="Button" parent="BattleUI/CommandPanel/VBox" unique_id=949073483]
+layout_mode = 2
+text = "Flee"
+
+[node name="SkillPanel" type="PanelContainer" parent="BattleUI" unique_id=1877374820]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -250.0
+offset_right = 230.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SkillList" type="VBoxContainer" parent="BattleUI/SkillPanel" unique_id=955292484]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MagicPanel" type="PanelContainer" parent="BattleUI" unique_id=327590654]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -250.0
+offset_right = 230.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MagicList" type="VBoxContainer" parent="BattleUI/MagicPanel" unique_id=574154607]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ItemPanel" type="PanelContainer" parent="BattleUI" unique_id=391907001]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = -210.0
+offset_right = 190.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ItemList" type="VBoxContainer" parent="BattleUI/ItemPanel" unique_id=95724176]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ResultPanel" type="PanelContainer" parent="BattleUI" unique_id=1303787972]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -70.0
+offset_right = 170.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="BattleUI/ResultPanel" unique_id=1153905749]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ResultLabel" type="Label" parent="BattleUI/ResultPanel/VBox" unique_id=951710553]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "VICTORY!"
+horizontal_alignment = 1
+
+[node name="ContinueBtn" type="Button" parent="BattleUI/ResultPanel/VBox" unique_id=1184616514]
+layout_mode = 2
+text = "Return to Town"
+
+[connection signal="pressed" from="BattleUI/CommandPanel/VBox/AttackBtn" to="." method="command_attack"]
+[connection signal="pressed" from="BattleUI/CommandPanel/VBox/DefendBtn" to="." method="command_defend"]
+[connection signal="pressed" from="BattleUI/CommandPanel/VBox/SkillsBtn" to="." method="command_skills"]
+[connection signal="pressed" from="BattleUI/CommandPanel/VBox/MagicBtn" to="." method="command_magic"]
+[connection signal="pressed" from="BattleUI/CommandPanel/VBox/ItemBtn" to="." method="command_item"]
+[connection signal="pressed" from="BattleUI/CommandPanel/VBox/FleeBtn" to="." method="command_flee"]
+[connection signal="pressed" from="BattleUI/ResultPanel/VBox/ContinueBtn" to="." method="_on_result_continue"]

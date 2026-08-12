@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbootpq64"]
+
+[ext_resource type="Script" path="res://scripts/boot.gd" id="1_boot"]
+
+[node name="Boot" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_boot")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.09, 0.16, 1)
+
+[node name="Center" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -260.0
+offset_right = 340.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Plumber's Quest 64"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="Center"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.75, 0.8, 0.9, 1)
+text = "libsm64-godot prototype  ·  Authentic Mario physics"
+horizontal_alignment = 1
+
+[node name="RomLabel" type="Label" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ROM: (none)"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.5, 1)
+text = "Install the Libsm64 Godot addon, enable it, then select a SM64 USA ROM."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SelectRom" type="Button" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select SM64 USA ROM…"
+
+[node name="LoadGame" type="Button" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Load Saved Game"
+
+[node name="ClassButtons" type="VBoxContainer" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Select Super Mario 64 (USA) ROM"
+initial_position = 2
+size = Vector2i(720, 480)
+ok_button_text = "Load ROM"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.z64 ; SM64 ROM", "*.n64 ; SM64 ROM", "*.v64 ; SM64 ROM")
+
+[connection signal="pressed" from="Center/SelectRom" to="." method="_on_select_rom_pressed"]
+[connection signal="pressed" from="Center/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_selected"]

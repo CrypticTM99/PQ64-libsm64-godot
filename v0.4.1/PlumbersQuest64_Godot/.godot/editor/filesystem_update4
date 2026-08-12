@@ -1,0 +1,11 @@
+res://scripts/battle_controller.gd
+res://scripts/boot.gd
+res://scripts/data.gd
+res://scripts/game_state.gd
+res://scripts/town.gd
+res://scenes/town.tscn
+res://addons/libsm64_godot/libsm64_mario/libsm64_mario_default_material.tres
+res://addons/libsm64_godot/libsm64_mario/libsm64_mario_vanish_material.tres
+res://addons/libsm64_godot/libsm64_mario/libsm64_mario_metal_material.tres
+res://addons/libsm64_godot/libsm64_mario/libsm64_mario_wing_material.tres
+res://scenes/battle.tscn

@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://ctownpq64"]
+
+[ext_resource type="Script" uid="uid://mmqmn0vgmxla" path="res://scripts/town.gd" id="1_town"]
+[ext_resource type="Script" uid="uid://bbq30kpxivduk" path="res://addons/libsm64_godot/handlers/libsm64_static_surfaces_handler.gd" id="2_f2a5t"]
+[ext_resource type="Script" uid="uid://b4n6vr1utqly6" path="res://addons/libsm64_godot/libsm64_mario/libsm64_mario.gd" id="2_ms2es"]
+
+[sub_resource type="PlaneMesh" id="mesh_plane"]
+size = Vector2(50, 50)
+
+[sub_resource type="StandardMaterial3D" id="mat_grass"]
+albedo_color = Color(0.22, 0.52, 0.22, 1)
+
+[sub_resource type="BoxMesh" id="mesh_box"]
+size = Vector3(3, 1.2, 3)
+
+[sub_resource type="StandardMaterial3D" id="mat_plat"]
+albedo_color = Color(0.45, 0.4, 0.35, 1)
+
+[node name="Town" type="Node3D" unique_id=1359890582]
+script = ExtResource("1_town")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1712444432]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 14, 4)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1688452760]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 12)
+current = true
+fov = 48.0
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1775742336]
+mesh = SubResource("mesh_plane")
+surface_material_override/0 = SubResource("mat_grass")
+
+[node name="Platform1" type="MeshInstance3D" parent="." unique_id=638058218]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, -4)
+mesh = SubResource("mesh_box")
+surface_material_override/0 = SubResource("mat_plat")
+
+[node name="Platform2" type="MeshInstance3D" parent="." unique_id=529656103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.2, -2)
+mesh = SubResource("mesh_box")
+surface_material_override/0 = SubResource("mat_plat")
+
+[node name="LibSM64StaticSurfaceHandler" type="Node" parent="." unique_id=396398336]
+script = ExtResource("2_f2a5t")
+metadata/_custom_type_script = "uid://bbq30kpxivduk"
+
+[node name="LibSM64Mario" type="Node3D" parent="." unique_id=1757752988 node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+script = ExtResource("2_ms2es")
+camera = NodePath("../Camera3D")
+metadata/_custom_type_script = "uid://b4n6vr1utqly6"
+
+[node name="TownUI" type="Control" parent="." unique_id=1050773821]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="HBoxContainer" parent="TownUI" unique_id=1871077478]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = -14.0
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_constants/separation = 28
+
+[node name="HPLabel" type="Label" parent="TownUI/TopBar" unique_id=769064923]
+layout_mode = 2
+text = "HP 100/100"
+
+[node name="MPLabel" type="Label" parent="TownUI/TopBar" unique_id=2099517004]
+layout_mode = 2
+text = "MP 30/30"
+
+[node name="GoldLabel" type="Label" parent="TownUI/TopBar" unique_id=508432183]
+layout_mode = 2
+text = "Gold 50"
+
+[node name="LevelLabel" type="Label" parent="TownUI/TopBar" unique_id=621922109]
+layout_mode = 2
+text = "Lv 1"
+
+[node name="Buttons" type="HBoxContainer" parent="TownUI" unique_id=1992806119]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -52.0
+offset_right = -14.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="BattleBtn" type="Button" parent="TownUI/Buttons" unique_id=1447721470]
+layout_mode = 2
+text = "Battle"
+
+[node name="ShopBtn" type="Button" parent="TownUI/Buttons" unique_id=1179042465]
+layout_mode = 2
+text = "Shop"
+
+[node name="EquipBtn" type="Button" parent="TownUI/Buttons" unique_id=1591317838]
+layout_mode = 2
+text = "Equip"
+
+[node name="QuestsBtn" type="Button" parent="TownUI/Buttons" unique_id=261574168]
+layout_mode = 2
+text = "Quests"
+
+[node name="SaveBtn" type="Button" parent="TownUI/Buttons" unique_id=795087080]
+layout_mode = 2
+text = "Save"
+
+[node name="Message" type="Label" parent="TownUI" unique_id=1192777075]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.45
+anchor_right = 0.5
+anchor_bottom = 0.45
+offset_left = -220.0
+offset_top = -16.0
+offset_right = 220.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="ShopPanel" type="PanelContainer" parent="TownUI" unique_id=365724721]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -180.0
+offset_right = 200.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="TownUI/ShopPanel" unique_id=1947100067]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="TownUI/ShopPanel/VBox" unique_id=212855604]
+layout_mode = 2
+text = "Shop"
+horizontal_alignment = 1
+
+[node name="ShopList" type="VBoxContainer" parent="TownUI/ShopPanel/VBox" unique_id=2030167533]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CloseShop" type="Button" parent="TownUI/ShopPanel/VBox" unique_id=1226566763]
+layout_mode = 2
+text = "Close"
+
+[node name="EquipPanel" type="PanelContainer" parent="TownUI" unique_id=706747299]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -160.0
+offset_right = 200.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="TownUI/EquipPanel" unique_id=320278895]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="TownUI/EquipPanel/VBox" unique_id=531962048]
+layout_mode = 2
+text = "Equipment"
+horizontal_alignment = 1
+
+[node name="EquipList" type="VBoxContainer" parent="TownUI/EquipPanel/VBox" unique_id=2118326582]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CloseEquip" type="Button" parent="TownUI/EquipPanel/VBox" unique_id=279453723]
+layout_mode = 2
+text = "Close"
+
+[node name="QuestsPanel" type="PanelContainer" parent="TownUI" unique_id=911771312]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -180.0
+offset_right = 240.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="TownUI/QuestsPanel" unique_id=518762530]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="TownUI/QuestsPanel/VBox" unique_id=1168178519]
+layout_mode = 2
+text = "Quest Log"
+horizontal_alignment = 1
+
+[node name="QuestList" type="VBoxContainer" parent="TownUI/QuestsPanel/VBox" unique_id=207793175]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CloseQuests" type="Button" parent="TownUI/QuestsPanel/VBox" unique_id=119615015]
+layout_mode = 2
+text = "Close"
+
+[connection signal="pressed" from="TownUI/Buttons/BattleBtn" to="." method="_on_battle_pressed"]
+[connection signal="pressed" from="TownUI/Buttons/ShopBtn" to="." method="_on_shop_pressed"]
+[connection signal="pressed" from="TownUI/Buttons/EquipBtn" to="." method="_on_equip_pressed"]
+[connection signal="pressed" from="TownUI/Buttons/QuestsBtn" to="." method="_on_quests_pressed"]
+[connection signal="pressed" from="TownUI/Buttons/SaveBtn" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="TownUI/ShopPanel/VBox/CloseShop" to="." method="_on_close_panels"]
+[connection signal="pressed" from="TownUI/EquipPanel/VBox/CloseEquip" to="." method="_on_close_panels"]
+[connection signal="pressed" from="TownUI/QuestsPanel/VBox/CloseQuests" to="." method="_on_close_panels"]
